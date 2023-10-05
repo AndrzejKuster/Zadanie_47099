@@ -18,6 +18,21 @@ module.exports = {
         })
     },
 
+    clientActions: (req, res, next) => {
+        const clientid = req.params.clientId;
+        console.log('client_id: ', clientid)
+        ActionModel.find({client_id: clientid})
+        .then ((result) => {
+            return res.status(200).json(result)
+        })
+        .catch ((error) => {
+            return res.status(500).json({
+                message: "Error displaying client actions!",
+                error: error
+            })
+        })
+    },
+
     create: (req, res, next) => {
         
         const action = new ActionModel({
@@ -37,6 +52,26 @@ module.exports = {
                     error: err
                 })
             })
+    },
+
+    edit: (req, res, next) => {
+        const id = req.params.id;
+        const {date, actionType, description, clientId} = req.body;
+        ActionModel.findByIdAndUpdate(id, req.body, {new: true})
+        .then((id) => {
+            return res.status(200).json({
+                date: date,
+                actionType: actionType,
+                description: description,
+                clientId: clientId
+            });
+        })
+        .catch((err) => {
+            return res.status(500).json({
+                message: "Error updating action!",
+                error: error
+            })
+        })
     },
 
     delete: (req, res, next) => {
