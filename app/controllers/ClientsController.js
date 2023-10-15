@@ -83,7 +83,7 @@ module.exports = {
             .then((id) => {
                 return res.status(200).json({
                     id: id,
-                    delete: true
+                    deleted: true
                 })
             })
             .catch((error) => {
