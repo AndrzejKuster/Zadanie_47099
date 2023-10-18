@@ -7,7 +7,10 @@ module.exports = () => {
     router.get('/', ClientsControllers.index)
 
     //GET /clients/find
-    router.get('/find/:NIP', ClientsControllers.find)
+    router.get('/find', ClientsControllers.find)
+
+    //GET /clients/findOne
+    router.get('/findone/:id', ClientsControllers.findOne)
 
     //POST /clients/add
     router.post('/add', ClientsControllers.create)

@@ -15,6 +15,22 @@ module.exports = {
             })
 
     },
+
+    findOne: (req, res, next) => {
+        ClientModel.findById(req.params.id)
+            .then((result) => {
+                console.log('Znaleziony klient: ', result)
+                res.json(result)
+            })
+            .catch((err) => {
+                return res.status(500).json({
+                    message: 'Error while fetching clients !',
+                    error: err
+                })
+            })
+
+    },
+
     create: (req, res, next) => {
         const client = new ClientModel({
             name: req.body.name,
@@ -35,12 +51,14 @@ module.exports = {
     },
 
     find: async (req, res) => {
-        const clientNip = req.params.NIP;
+        // const clientNip = req.params.NIP;
+        const searchTerm = req.query.searchTerm;
+        console.log('REQ.QUERY: ',req.query.searchTerm);
         console.log('-----------');
-        console.log('nip z linku -', clientNip);
+        // console.log('nip z linku -', clientNip);
         console.log('-----------');
         try {
-            const foundClient = await ClientModel.findOne({ NIP: clientNip });
+            const foundClient = await ClientModel.find({ NIP: new RegExp(searchTerm, 'i')});
             console.log('-----------');
             console.log('znaleziony klient -', foundClient);
             console.log('-----------');

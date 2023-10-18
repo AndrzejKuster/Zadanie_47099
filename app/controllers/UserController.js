@@ -33,10 +33,10 @@ module.exports = {
         const { username, password } = req.body;
 
         const user = await UserModel.findOne({ username });
-        if (!user) return res.status(400).json({ message: 'Niewłaściwe poswiadczenia!' });
+        if (!user) return res.status(400).json({ message: 'Niewłaściwy login lub hasło!' });
 
         const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) return res.status(400).json({ message: 'Niewłaściwe poswiadczenia!' });
+        if (!validPassword) return res.status(400).json({ message: 'Niewłaściwy login lub hasło!' });
         console.log("sekret key to: ",secretKey);
         const token = jwt.sign({ username: user.username, id: user._id }, secretKey);
         res.status(200).json({ token });
